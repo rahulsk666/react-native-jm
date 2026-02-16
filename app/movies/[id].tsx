@@ -91,10 +91,9 @@ const MovieDetails = () => {
                   label="Revenue"
                   value={
                     movie?.revenue
-                      ? `$${Math.round(movie?.revenue / 1_000_000)}`
+                      ? `$${Math.round(movie?.revenue / 1_000_000)} million`
                       : "N/A"
                   }
-                  million
                 />
               </View>
               <MovieInfo
