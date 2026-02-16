@@ -32,22 +32,22 @@ const MovieDetails = () => {
   );
   return (
     <View className="bg-primary flex-1">
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color="#0000ff"
-          className="mt-10 justify-center items-center flex-1"
-        />
-      ) : (
-        <>
-          <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            className="mt-10 justify-center items-center flex-1"
+          />
+        ) : (
+          <>
             <View>
               <Image
                 source={{
                   uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}`,
                 }}
                 className="w-full h-[550px]"
-                resizeMode="stretch"
+                resizeMode="cover"
               />
             </View>
             <View className="flex-col items-start justify-center mt-5 px-5">
@@ -77,23 +77,15 @@ const MovieDetails = () => {
                 label="Genres"
                 value={movie?.genres?.map((g) => g.name).join(" - ") || "N/A"}
               />
-              {/* <MovieInfo label="Status" value={movie?.status} /> */}
+              <MovieInfo label="Status" value={movie?.status} />
               <View className="flex flex-row justify-between w-1/2">
                 <MovieInfo
                   label="Budget"
-                  value={
-                    movie?.budget
-                      ? `$${movie?.budget / 1_000_000} million`
-                      : "N/A"
-                  }
+                  value={`$${movie?.budget / 1_000_000} million`}
                 />
                 <MovieInfo
                   label="Revenue"
-                  value={
-                    movie?.revenue
-                      ? `$${Math.round(movie?.revenue / 1_000_000)}`
-                      : "N/A"
-                  }
+                  value={`$${Math.round(movie?.revenue / 1_000_000)}`}
                 />
               </View>
               <MovieInfo
@@ -104,21 +96,21 @@ const MovieDetails = () => {
                 }
               />
             </View>
-          </ScrollView>
-          <TouchableOpacity
-            className="absolute bottom-5 left-0 right-0 mx-5 bg-darkAccent rounded-lg py-3.5 flex-row items-center justify-center z-50"
-            onPress={router.back}
-          >
-            <Image
-              source={icons.arrow}
-              className="size-5 mr-1 mt-0.5 rotate-180"
-              resizeMode="contain"
-              tintColor={"#fff"}
-            />
-            <Text className="text-white font-semibold text-base">Go back</Text>
-          </TouchableOpacity>
-        </>
-      )}
+          </>
+        )}
+      </ScrollView>
+      <TouchableOpacity
+        className="absolute bottom-5 left-0 right-0 mx-5 bg-darkAccent rounded-lg py-3.5 flex-row items-center justify-center z-50"
+        onPress={router.dismissAll}
+      >
+        <Image
+          source={icons.arrow}
+          className="size-5 mr-1 mt-0.5 rotate-180"
+          resizeMode="contain"
+          tintColor={"#fff"}
+        />
+        <Text className="text-white font-semibold text-base">Go back</Text>
+      </TouchableOpacity>
     </View>
   );
 };
