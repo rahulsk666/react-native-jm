@@ -1,6 +1,7 @@
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { fetchMovies } from "@/services/app";
+import { fetchMovies } from "@/services/api";
+import { updateSearchCount } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
@@ -21,12 +22,21 @@ const Search = () => {
     const timeout = setTimeout(async () => {
       if (searchQuery.trim()) {
         await LoadMovies();
+        if (movies?.length > 0 && movies?.[0]) {
+          updateSearchCount(searchQuery, movies?.[0]);
+        }
       } else {
         reset();
       }
     }, 500);
     return () => clearTimeout(timeout);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (movies?.length > 0 && movies?.[0]) {
+      updateSearchCount(searchQuery, movies?.[0]);
+    }
+  }, [movies]);
 
   return (
     <View className="flex-1 bg-primary">
